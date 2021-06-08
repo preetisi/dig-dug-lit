@@ -25,6 +25,8 @@
 		85C21A89266EDAE000B6BA9B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		85C21A8A266EDAE000B6BA9B /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		85C21A99266EDB3B00B6BA9B /* plot.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = plot.py; sourceTree = "<group>"; };
+		85C21A9A266EF71500B6BA9B /* plot_phenotypes.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = plot_phenotypes.py; sourceTree = "<group>"; };
+		85C21A9B266EF7A700B6BA9B /* rest.py */ = {isa = PBXFileReference; lastKnownFileType = text.script.python; path = rest.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,8 @@
 			isa = PBXGroup;
 			children = (
 				85C21A99266EDB3B00B6BA9B /* plot.py */,
+				85C21A9A266EF71500B6BA9B /* plot_phenotypes.py */,
+				85C21A9B266EF7A700B6BA9B /* rest.py */,
 				85C21A77266EDADE00B6BA9B /* Shared */,
 				85C21A81266EDAE000B6BA9B /* iOS */,
 				85C21A88266EDAE000B6BA9B /* macOS */,
