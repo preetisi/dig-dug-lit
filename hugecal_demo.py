@@ -21,6 +21,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import math
+from streamlit_ace import st_ace
 # Initial page config
 
 st.set_page_config(
@@ -195,7 +196,8 @@ def isExomewideSignificant(df):
                 isExomewideSignificant = True
                 return isExomewideSignificant
     
-    
+
+#This can be exposed
 def rare_variation_strength(prior,beta,stdErr):
     w = prior
     v = stdErr**2
@@ -205,19 +207,19 @@ def rare_variation_strength(prior,beta,stdErr):
     f3 =  2 * v * (v + w)
     f4 = f2/f3
     bayes_factor = sqrt_f1 * math.exp(f4)
-    
     return bayes_factor
 
-
-def find_most_significantmask(df):
-    for index, row in df.iterrows():
-        if row['phenotype'] == phenotype_input:
-            masks = row['masks']
-            newlist = sorted(masks, key=lambda k: k['pValue'])
+with st.echo(code_location="below"):
+    def find_most_significantmask(df):
+        for index, row in df.iterrows():
+            if row['phenotype'] == phenotype_input:
+                masks = row['masks']
+                newlist = sorted(masks, key=lambda k: k['pValue'])
             #st.write(pd.DataFrame(newlist))
-            return newlist[0]
+                return newlist[0]
                    
         
+
 
 def bf_rarevariation(prior):
     gene = f'"{gene_input}"'
@@ -261,12 +263,18 @@ def bf_rarevariation(prior):
 ##########################
 # Main body of Huge Cal
 ##########################
+with st.echo(code_location="below"):
+    def posteriorprior_probability(combined_bf,p):
+        f5 = p / (1 - p);
+        p0 = combined_bf * f5;
+        ppa = p0 / (1 + p0);
+        return ppa
 
-def posteriorprior_probability(combined_bf,p):
-    f5 = p / (1 - p);
-    p0 = combined_bf * f5;
-    ppa = p0 / (1 + p0);
-    return ppa
+#def posteriorprior_probability(combined_bf,p):
+#    f5 = p / (1 - p);
+#    p0 = combined_bf * f5;
+#    ppa = p0 / (1 + p0);
+#    return ppa
 
 def cs_body():
     gene = f'"{gene_input}"'
@@ -315,7 +323,7 @@ def cs_body():
             rarevariation_expander.write(pd.DataFrame(masks))
     
   
-    
+   
     # Combined Evidence
     bf_combinedvariation = bf_rarevariation(prior_input) * bf_commonvariation()["Bayes Factor"][1]
     with st.beta_container():
@@ -330,25 +338,19 @@ def cs_body():
         combined_expander = st.beta_expander("See explaination")
         combined_expander.text("*Compelling: HuGe Score >= 350 Extreme: >=100 Very Strong: >=30 Strong: >=10 Moderate: >=3 Anecdotal: >1 No Evidence: <=1")
     ppr = []
+  
     for p in prior:
         ppr.append(posteriorprior_probability(float(bf_combinedvariation["Bayes Factor"][1]),float(p)))
     
     df = pd.DataFrame({'prior': prior, 'ppr': ppr})
-    
+   
    
 #    st.write(df)
     chart = alt.Chart(df).mark_line().encode(x='prior',y='ppr',
     color=alt.Color("name:N")).properties(title="Posterior probability vs Prior")
     combined_expander.altair_chart(chart, use_container_width=True)
-#    #Rare Variation
-#    col2.subheader('Rare Evidence')
-#    if isExomewideSignificant(assoc_52kdata_df):
-#        col2.code('''Bayes factor = 1 (Exome significant)''')
-#
-#    else:
-##        col2.st.text_input("Enter Prior",0.3696)
-#        my_expander2 = col2.beta_expander("See explaination")
-#        my_expander2.altair_chart(chart, use_container_width=True)
+    code = st_ace()
+    st.write(code)
 
 # Run main()
 
